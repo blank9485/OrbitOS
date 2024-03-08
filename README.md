@@ -5,3 +5,9 @@ While OrbitOS is still in beta, you may experience some bugs. if you found one o
 
 
 coming out on 23 march 2024
+
+# faq
+
+is OrbitOS open source?
+yes! you can fork the repl at any time. you can also collaborate.
+
