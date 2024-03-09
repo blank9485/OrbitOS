@@ -26,4 +26,4 @@ no, Orbitos is not a real operating system, it is command based.
 
 i found a bug or i have a suggestion, what shou ld i do?
 
-you can report the bug or suggestion on the git hub page or comment on this repl.
+you can report the bug or suggestion on the git hub page or comment on the repl.
