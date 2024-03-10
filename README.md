@@ -1,7 +1,12 @@
+
 # OrbitOS
 
 A Python-powered command-driven operating system experiment. Explore basic commands and enjoy your experience. 
 While OrbitOS is still in beta, you may experience some bugs. if you found one or you have a suggestion please create a issue and I'll look into it. 
+![Screenshot_20240310-141259~2](https://github.com/blank9485/OrbitOS/assets/137871802/41eac77d-9555-4b6e-b568-1ed0bcd025c0)
+
+
+
 To play it go to: https://replit.com/@Blank9485999/OrbitOS?s=app
 
 Coming out on 23 march 2024
