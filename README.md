@@ -9,7 +9,6 @@ While OrbitOS is still in beta, you may experience some bugs. if you found one o
 
 To play it go to: https://replit.com/@Blank9485999/OrbitOS?s=app
 
-Coming out on 23 march 2024
 # FAQ
 1. Is OrbitOS open source?
 - Yes, OrbitOS is open source and can be found on github. you can also fork it on replit.
