@@ -5,3 +5,4 @@ security patch: 1 march 2024
 
 what's new: 
 -updated kernel, which makes the boot time faster.
+-fixed boot bug, before it showed 99%, now it shows 100%
