@@ -1,6 +1,7 @@
 import os 
 import sys
 import time
+import random
 def loading():
     for i in range(0, 100):
         time.sleep(0.1) 
@@ -22,11 +23,11 @@ while True:
     enter = input("root@orbitos:~$>> ")
   
     if enter == "help":
-        print("available commands: neofetch, whoami, shutdown, bored, software update, echo, ls, weather, faq")
+        print("available commands: neofetch, whoami, shutdown, bored, software update, echo, ls, weather, faq, clear, ipg")
 
          
     if enter == "software update":
-        print("welcome to OrbitOS beta. OrbitOS is a command based operating system. OrbitOS is still in beta, so there may be bugs.")
+        print("what's new: -added clear command -added ip generator")
 
     if enter == "whoami":
         print("root")
@@ -72,7 +73,7 @@ while True:
         
       
     if enter == "neofetch":
-         print("OS: OrbitOS 3.2.1")      
+         print("OS: OrbitOS 3.2.2")      
          print("security patch: 1 march 2024")
          print("host: device 8082")
          print("kernel: 5.4.0 orbitosarm64")
@@ -130,3 +131,20 @@ while True:
         print(c("no, OrbitOS is not a real operating system, it is command based.", "green"))
         print(c("i found a bug or i have a suggestion, what should i do?", "blue"))
         print(c("you can report the bug or suggestion on the github page or comment on this repl.", "green"))
+
+      if enter == "clear":
+        os.system("clear")
+      if enter == "ipg":
+        print("----")
+        print("IP Generator")
+        print("----")
+        print("Enter the amount of IPs you want to generate, warning ⚠️ it may lead to a crash if you generate too many! ")
+        amount = int(input("Amount: "))
+        print("----")
+        print("IPs:")
+        print("----")
+        for i in range(amount):
+          print(f"IP {i+1}: {random.randint(0, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}")         
+
+
+
