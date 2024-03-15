@@ -1,8 +1,7 @@
-current version: 3.2.3
-channel: beta 3
-last update: 13 march 2024
+current version: 3.2.4
+channel: beta 4
+last update: 15 march 2024
 security patch: 1 march 2024
 
 what's new: 
--updated kernel, which makes the boot time faster.
--fixed boot bug, before it showed 99%, now it shows 100%
+-added rservices command
