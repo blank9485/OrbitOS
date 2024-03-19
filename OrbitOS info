@@ -1,8 +1,7 @@
-current version: 3.2.2
-channel: beta
-last update: 11 march 2024
+OrbitOS version: 3.2.4
+channel: beta 4
 security patch: 1 march 2024
+last update: 18 march 2024
 
-what's new: 
--added ipg command (ip generator)
--added clear command
+what's new:
+- downgraded to 3.2.4
