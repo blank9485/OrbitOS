@@ -1,7 +1,7 @@
 import os 
 import sys
 import time
-
+import dictionary
 import commands
 
 # Load FS
@@ -13,8 +13,8 @@ if not os.path.exists("filesystem"):
     os.mkdir("filesystem")
 import Filesystem
 def loading():
-    for i in range(0, 100):
-        time.sleep(0.1) 
+    for i in range(0, 101):
+        time.sleep(0.0099)
         sys.stdout.write("\rbooting system... " + str(i) + "%")
         sys.stdout.flush()
     print("\nboot succes!")
@@ -37,6 +37,8 @@ system_commands = [
     commands.bored,
     commands.clear,
     commands.Neofetch,
+    commands.stop,
+    commands.rservice,
     commands.shutdown,
     commands.software_update,
     commands.weather,

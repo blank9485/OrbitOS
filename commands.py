@@ -1,15 +1,16 @@
 import random
 from termcolor import colored
 import os
+import time
 def help(command):
     if command[0] == "help":
         print(
-            "available commands: neofetch, whoami, shutdown, bored, software_update, echo, ls, weather, faq, clear, ipg, write, rm, cd, mkdir, rmdir, pwd")
+            "available commands: neofetch, whoami, shutdown, bored, software_update, echo, ls, weather, faq, clear, ipg, write, rm, cd, mkdir, rmdir, pwd, rservices, stop")
 
 
 def software_update(command):
     if command[0] == "software_update":
-        print("what's new: -added clear command -added ip generator -added FS -added better command system")
+        print("what's new: -downgraded to 3.2.4 -added FS -added better command system")
 
 def whoami(command):
     if command[0] == "whoami":
@@ -31,7 +32,7 @@ def Neofetch(command):
         print("OS: OrbitOS 3.2.2")
         print("security patch: 1 march 2024")
         print("host: device 8082")
-        print("kernel: 5.4.0 orbitosarm64")
+        print("kernel: 5.4.1 orbitosarm64")
         print("arch: arm64")
         print("packages: 0")
         print("shell: bash")
@@ -101,4 +102,27 @@ def ipg(command):
                 f"IP {i + 1}: {random.randint(0, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}")
 
 
+def rservice(command):
+    if command[0] == "rservices":
+        print("----")
+        print("running services")
+        print("----")
+        print("system")
+        print("drivers")
+        print("type 'stop' [service name] to stop a running task")
 
+def stop(command):
+    if command[0] == "stop":
+        if not len(command) == 2:
+            print("Usage: stop <service name>")
+            return
+        if command[1] == "system":
+            print("stopping system...")
+            time.sleep(3)
+            print("couldn't load system properly. please restart")
+            exit(0)
+        if command[1] == "drivers":
+            print("stopping drivers...")
+            time.sleep(3)
+            print("your device has reached into an error state. please restart")
+            exit(0)
