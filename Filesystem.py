@@ -2,73 +2,71 @@
 # protonOS 1.6's Filesystem but ported to OrbitOS
 # Port by Proton0 (the creator of protonOS)
 #
+#
+# Modified by Breado aka TheRammatraMain 
 
 import __main__
 import shutil
 import os
 
-def cd(command):
-    if command[0] == "cd":
-        if not len(command) == 2:
-            print("not enough args")
-            return
-        if command[1] == "..":
-            # Go back a directory
-            if __main__.fs["full_directory"] == "filesystem":
-                __main__.fs["current_directory"] = "/"
-                __main__.fs["full_directory"] = "/"
+
+# using classes to manage commands better, for greater scalabillity.
+# and to make sure were not importing A WHOLE FILE, this will enable faster "boot" time, and greater control 
+# over what is used when
+
+class FileSystem:
+    def __init__(self):
+        self.current_directory = "/"
+        self.full_directory = "filesystem"
+
+    def cd(self, command):
+        if command[0] == "cd":
+            if not len(command) == 2:
+                print("not enough args")
+                return
+            if command[1] == "..":
+                # Go back a directory
+                if self.full_directory == "filesystem":
+                    self.current_directory = "/"
+                    self.full_directory = "/"
+                else:
+                    current_directory_parts = self.full_directory.split("/")
+                    parent_directory_parts = current_directory_parts[:-1]
+                    parent_directory = "/".join(parent_directory_parts)
+                    parent_directory_name = parent_directory_parts[-1]
+                    if parent_directory_name == "filesystem":
+                        self.current_directory = "/"
+                    else:
+                        self.current_directory = parent_directory_name
+                    if parent_directory == "/" or parent_directory == "":
+                        self.full_directory = "filesystem"
+                    else:
+                        self.full_directory = parent_directory
+                return
+            self.current_directory = command[1]
+            self.full_directory = self.full_directory + "/" + command[1]
+
+    def ls(self, command):
+        if command[0] == "ls":
+            if len(command) == 2:
+                path = "filesystem/" + command[1]
             else:
-                current_directory_parts = __main__.fs["full_directory"].split("/")
-                parent_directory_parts = current_directory_parts[:-1]
-                parent_directory = "/".join(parent_directory_parts)
-                parent_directory_name = parent_directory_parts[-1]
-                if parent_directory_name == "filesystem":
-                    __main__.fs["current_directory"] = "/"
-                else:
-                    __main__.fs["current_directory"] = parent_directory_name
-                if parent_directory == "/" or parent_directory == "":
-                    __main__.fs["full_directory"] = "filesystem"
-                else:
-                    __main__.fs["full_directory"] = parent_directory
-            return
-        __main__.fs["current_directory"] = command[1]
-        __main__.fs["full_directory"] = __main__.fs[
-                                                                   "full_directory"] + "/" + command[1]
-
-
-def ls(command):
-    if command[0] == "ls":
-
-        if len(command) == 2:
-            k = os.listdir("filesystem/" + command[1])
+                path = self.full_directory if self.current_directory != "/" else "filesystem"
+            k = os.listdir(path)
             for f in k:
                 print(f)
-            return
-        if __main__.fs["current_directory"] == "/":
-            k = os.listdir("filesystem")
-            for f in k:
-                print(f)
-            return
-        else:
-            k = os.listdir(__main__.fs["full_directory"])
-            for f in k:
-                print(f)
-            return
 
+    def cat(self, command):
+        if command[0] == "cat":
+            if len(command) == 2:
+                with open(self.full_directory + "/" + command[1], "r") as f:
+                    for line in f.readlines():
+                        print(line)
 
-def cat(command):
-    if command[0] == "cat":
-        if len(command) == 2:
-            f = open(__main__.fs["full_directory"] + "/" + command[1], "r")
-            for line in f.readlines():
-                print(line)
-
-
-def rm(command):
-    if command[0] == "rm":
-        if len(command) == 3:
-            if command[1] == "-rf":
-                if command[2] == "/":
+    def rm(self, command):
+        if command[0] == "rm":
+            if len(command) == 3:
+                if command[1] == "-rf" and command[2] == "/":
                     k = input("Are you sure you want to delete the entire filesystem (y/n) : ")
                     if k.lower() == "y" or k.lower() == "yes":
                         print("Deleting filesystem")
@@ -77,24 +75,21 @@ def rm(command):
                         exit()
                     else:
                         print("Cancelled")
-        if len(command) == 2:
-            if os.path.isfile(__main__.fs["full_directory"] + "/" + command[1]):
-                os.remove(__main__.fs["full_directory"] + "/" + command[1])
-            else:
-                shutil.rmtree(__main__.fs["full_directory"] + "/" + command[1])
+            if len(command) == 2:
+                path = self.full_directory + "/" + command[1]
+                if os.path.isfile(path):
+                    os.remove(path)
+                else:
+                    shutil.rmtree(path)
 
+    def rmdir(self, command):
+        if command[0] == "rmdir":
+            self.rm(["rm", command[1]])
 
-def rmdir(command):
-    if command[0] == "rmdir":
-        rm(["rm", command[1]])
+    def pwd(self, command):
+        if command[0] == "pwd":
+            print(self.full_directory)
 
-
-def pwd(command):
-    if command[0] == "pwd":
-        print(__main__.fs['full_directory'])
-
-
-def mkdir(command):
-    if command[0] == "mkdir":
-        if len(command) == 2:
-                os.mkdir(__main__.fs["full_directory"] + "/" + command[1])
+    def mkdir(self, command):
+        if command[0] == "mkdir" and len(command) == 2:
+            os.mkdir(self.full_directory + "/" + command[1])
