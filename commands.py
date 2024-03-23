@@ -6,37 +6,36 @@ import random
 from termcolor import colored
 import os
 import time
+from kernel import process_management
 
 class CommandProcessor:
+    """
+    This is the command processor class. It takes in commands from the user
+    and processes them accordingly.
+    """
     @staticmethod
-    def help(command):
-        if command[0] == "help":
+    @process_management(priority=3)
+    def help():
             print("available commands: neofetch, whoami, shutdown, bored, software_update, echo, ls, weather, faq, clear, ipg, write, rm, cd, mkdir, rmdir, pwd, rservices, stop")
 
     @staticmethod
-    def software_update(command):
-        if command[0] == "software_update":
+    @process_management(priority=1)
+    def software_update():
             print("what's new: -downgraded to 3.2.4 -added FS -added better command system")
 
     @staticmethod
-    def whoami(command):
-        if command[0] == "whoami":
+    @process_management(priority=2)
+    def whoami():
             print("root")
 
     @staticmethod
-    def shutdown(command):
-        if command[0] == "shutdown":
+    @process_management(priority=1)
+    def shutdown():
             exit()
 
     @staticmethod
-    def echo(command):
-        if command[0] == "echo":
-            if len(command) == 2:
-                print(command[1])
-
-    @staticmethod
-    def Neofetch(command):
-        if command[0] == "neofetch":
+    @process_management(priority=3)
+    def Neofetch():
             print("OS: OrbitOS 3.2.2")
             print("security patch: 1 march 2024")
             print("host: device 8082")
@@ -54,8 +53,9 @@ class CommandProcessor:
             print("memory: 6495Mib/8937Mib")
 
     @staticmethod
-    def bored(command):
-        if command[0] == "bored":
+    @process_management(priority=5)
+    def bored( ):
+        if  [0] == "bored":
             print("touch grass")
             print("play games")
             print("watch youtube")
@@ -68,8 +68,8 @@ class CommandProcessor:
             print("talk with AI")
 
     @staticmethod
-    def weather(command):
-        if command[0] == "weather":
+    @process_management(priority=5)
+    def weather( ):
             c = colored
             print(c("Weather for new York", "green"))
             print(c("temperature: 25°C", "red"))
@@ -79,8 +79,8 @@ class CommandProcessor:
             print(c("sunset: 6:00 PM", "red"))
 
     @staticmethod
-    def faq(command):
-        if command[0] == "faq":
+    @process_management(priority=5)
+    def faq():
             c = colored
             print(c("is OrbitOS open source?", "blue"))
             print(c("yes, OrbitOS is open source and can be found on github. you can also fork it on replit", "green"))
@@ -94,13 +94,14 @@ class CommandProcessor:
             print(c("you can report the bug or suggestion on the github page or comment on this repl.", "green"))
 
     @staticmethod
-    def clear(command):
-        if command[0] == "clear":
-            os.system("clear")
+    @process_management(priority=2)
+    def clear():
+        # Send the ANSI escape sequence to clear the screen
+            print("\033[H\033[2J")
 
     @staticmethod
-    def ipg(command):
-        if command[0] == "ipg":
+    @process_management(priority=3)
+    def ipg():
             print("----")
             print("IP Generator")
             print("----")
@@ -113,8 +114,8 @@ class CommandProcessor:
                 print(f"IP {i + 1}: {random.randint(0, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}")
 
     @staticmethod
-    def rservice(command):
-        if command[0] == "rservices":
+    @process_management(priority=1)
+    def rservice():
             print("----")
             print("running services")
             print("----")
@@ -122,25 +123,3 @@ class CommandProcessor:
             print("drivers")
             print("type 'stop' [service name] to stop a running task")
 
-    @staticmethod
-    def stop(command):
-        if command[0] == "stop":
-            if not len(command) == 2:
-                print("Usage: stop <service name>")
-                return
-            if command[1] == "system":
-                print("stopping system...")
-                time.sleep(3)
-                print("couldn't load system properly. please restart")
-                exit(0)
-            if command[1] == "drivers":
-                print("stopping drivers...")
-                time.sleep(3)
-                print("your device has reached into an error state. please restart")
-                exit(0)
-
-# Example usage:
-# cmd_processor = CommandProcessor()
-# cmd_processor.neofetch(["neofetch"])
-# cmd_processor.help(["help"])
-# And so on for other commands...

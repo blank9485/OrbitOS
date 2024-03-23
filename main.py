@@ -2,16 +2,13 @@ import os
 import sys
 import time
 import commands
-from termcolor import colored
 from datetime import date
-from Filesystem import FileSystem  # Import the FileSystem class instead of importing a whole file 
-from commands import CommandProcessor # import the CommandProcessor class instead of importing a whole file ( again )
-# moved all imports to the top to reflect the PEP-8 standards
+from termcolor import colored
+from commands import CommandProcessor
+from kernel import Kernel
 
-# Load File System commands as fs
-fs = FileSystem()
+# Instantiate the imported classes
 cp = CommandProcessor()
-
 
 def loading():
     for i in range(0, 101):
@@ -20,36 +17,23 @@ def loading():
         sys.stdout.flush()
     print("\nboot success!")
 
-# moved the system commands class UP, so we can make sure the list and the commands are initilaized BEFORE the "OS" "booted"
 # System Commands
 system_commands = [
-    fs.cd,        # Change to fs.cd instead of Filesystem.cd
-    fs.mkdir,     # Change to fs.mkdir instead of Filesystem.mkdir
-    fs.rm,        # Change to fs.rm instead of Filesystem.rm
-    fs.ls,        # Change to fs.ls instead of Filesystem.ls
-    fs.cat,       # Change to fs.cat instead of Filesystem.cat
-    fs.rmdir,     # Change to fs.rmdir instead of Filesystem.rmdir
-    fs.pwd,       # Change to fs.pwd instead of Filesystem.pwd
-                  # to reflect the class change made
+    'cp.faq',
+    'cp.ipg',
+    'cp.help',
+    'cp.bored',
+    'cp.clear',
+    'cp.Neofetch',
+    'cp.rservice',
+    'cp.shutdown',
+    'cp.software_update',
+    'cp.weather',
+    'cp.whoami'
+]
 
-    cp.faq,
-    cp.ipg,
-    cp.echo,
-    cp.help,
-    cp.bored,
-    cp.clear,
-    cp.Neofetch,
-    cp.stop,
-    cp.rservice,
-    cp.shutdown,
-    cp.software_update,
-    cp.weather,
-    cp.whoami
-]             # same shit done like above   
-
-
-
-
+# Start the kernel
+kernel = Kernel()
 
 loading()
 
@@ -61,9 +45,22 @@ print("Today's date:", today)
 c = colored
 print(c("security patch: 1 march 2024", "red"))
 while True:
-    user_input = input(f"root@orbitos:{fs.current_directory}$>> ").split(" ")
-    for command in system_commands:
-        try:
-            command(user_input)
-        except Exception as e:
-            print(f"Error while executing the command : {e}")
+    user_input = input(f"root@orbitos:{os.curdir}/$>> ").split(" ")
+    entered_command = user_input[0]  # Extract the entered command
+    args = user_input[1:]  # Extract the arguments
+    
+    command_found = False
+    
+    for command_str in system_commands:
+        command_name = command_str.split('.')[-1]  # Extract the command name from the string
+        if command_name == entered_command:
+            try:
+                command_func = eval(command_str)  # Evaluate the string to get the function reference
+                command_func(*args)  # Call the command function with arguments
+                command_found = True
+                break
+            except Exception as e:
+                print(f"Error while executing the command '{entered_command}': {e}")
+                break  # Break the loop on error to avoid attempting to execute other commands
+    if not command_found:
+        print(f"Command '{entered_command}' not found.")
